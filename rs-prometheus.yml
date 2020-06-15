@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prom-deploy
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+       env: production
+  template:
+    metadata:
+      name: prom-pod
+      labels:
+        env: production
+    spec:
+      containers:
+      - name: prom-con
+        image: arnab83/prome:v1       
+        volumeMounts:
+        - name: pom-vol1
+          mountPath: /prom_data
+      volumes:
+      - name: pom-vol1
+        persistentVolumeClaim:
+          claimName: pom-pvc
+     
